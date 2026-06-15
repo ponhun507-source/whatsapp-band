@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Support Center</title>
+    <style>
+        body {
+            font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0b141a;
+            color: #e9edef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #111b21;
+            padding: 35px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            text-align: center;
+            width: 90%;
+            max-width: 360px;
+        }
+        h2 {
+            color: #00a884;
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #8696a0;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 12px;
+            color: #00a884;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #222e35;
+            border-radius: 8px;
+            background-color: #2a3942;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input[type="text"]::placeholder {
+            color: #667781;
+        }
+        button {
+            width: 100%;
+            background-color: #00a884;
+            color: #111b21;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background-color: #008f72;
+        }
+        .result-box {
+            margin-top: 25px;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            line-height: 1.4;
+        }
+        .loading {
+            color: #34b7f1;
+            background-color: rgba(52, 183, 241, 0.1);
+            border: 1px solid #34b7f1;
+        }
+        .banned {
+            color: #ea0038;
+            background-color: rgba(234, 0, 56, 0.1);
+            border: 1px solid #ea0038;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>RAKUS WhatsApp Database Control</h2>
+    <div class="subtitle">Enter the target mobile number to request immediate account termination from the Meta verification servers.</div>
+    
+    <div class="input-group">
+        <label>TARGET PHONE NUMBER</label>
+        <input type="text" id="phoneNum" placeholder="+94 7X XXX XXXX" autocomplete="off">
+    </div>
+    
+    <button id="banBtn" onclick="processBan()">TERMINATE ACCOUNT</button>
+    
+    <div id="result" class="result-box"></div>
+</div>
+
+<script>
+    let clickCount = 0;
+
+    function processBan() {
+        let number = document.getElementById("phoneNum").value;
+        let resultDiv = document.getElementById("result");
+        let btn = document.getElementById("banBtn");
+
+        if (number.trim() === "") {
+            alert("Error: Please enter a valid phone number.");
+            return;
+        }
+
+        clickCount++;
+
+        if (clickCount < 4) {
+            resultDiv.style.display = "block";
+            resultDiv.className = "result-box loading";
+            
+            if (clickCount === 1) {
+                resultDiv.innerHTML = "Establishing secure handshake with Meta API...";
+            } else if (clickCount === 2) {
+                resultDiv.innerHTML = "Injecting termination request packet into database...";
+            } else if (clickCount === 3) {
+                resultDiv.innerHTML = "Verifying token authorization (92%)...";
+            }
+        } else {
+            resultDiv.className = "result-box banned";
+            resultDiv.innerHTML = "🔒 CRITICAL SUCCESS: " + number + " has been successfully banned from WhatsApp servers.";
+            btn.innerHTML = "TARGET TERMINATED";
+            btn.disabled = true;
+            btn.style.backgroundColor = "#222e35";
+            btn.style.color = "#667781";
+            btn.style.cursor = "not-allowed";
+        }
+    }
+</script>
+
+</body>
+</html>
